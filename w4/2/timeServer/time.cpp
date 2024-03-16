@@ -16,7 +16,7 @@ int main(){
     servSock = socket(AF_INET,SOCK_STREAM,0);
     //Initial Server Information
     serv.sin_family = AF_INET;
-    serv.sin_port = htons(8888);
+    serv.sin_port = htons(1234);
     serv.sin_addr.s_addr = inet_addr("127.0.0.1");
 
     //Get Socket from my host
@@ -38,7 +38,7 @@ int main(){
         
         //Get Connect from client
         clntSock =  accept(servSock, (struct sockaddr *)  &clnt,&clnt_len );
-        
+
         printf("Server Send:%s\n",asctime(timeinfo));
         send(clntSock,asctime(timeinfo), strlen(asctime(timeinfo)) + 1 ,0);
         closesocket(clntSock);

@@ -16,7 +16,7 @@ int main(){
     servSock = socket(AF_INET,SOCK_STREAM,0);
     //Initial Server Information
     serv.sin_family = AF_INET;
-    serv.sin_port = htons(8888);
+    serv.sin_port = htons(1234);
     serv.sin_addr.s_addr = inet_addr("127.0.0.1");
 
     //Get Socket from my host
@@ -35,7 +35,7 @@ int main(){
         while (1){
             printf("Server Send:%s\n",str);
             int result = send(clntSock,str, strlen(str) + 1 ,0);
-            if (result == SOCKET_ERROR || result == WSAESHUTDOWN || result == WSAETIMEDOUT ){
+            if (result == SOCKET_ERROR ){
                 break;
             }
         }
