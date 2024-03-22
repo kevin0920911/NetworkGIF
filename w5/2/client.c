@@ -63,6 +63,7 @@ int main(){
             printf("%s\n",str);
         }
         getc(stdin);
+        printf("===============================\n");
     }
     closesocket(sock);
     WSACleanup();

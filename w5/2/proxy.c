@@ -57,6 +57,7 @@ int main(){
     int clnt_len=sizeof(client);
     listen(ServSock,5);
     while(1){
+        
         printf("Proxy Server Wait\n");
 
         /*
@@ -91,7 +92,7 @@ int main(){
                 struct in_addr sAddr;
                 sAddr.s_addr=inet_addr(str);
                 hp= gethostbyaddr((LPSTR) &sAddr, sizeof(sAddr),AF_INET);
-                if (hp->h_name == NULL){
+                if (hp == NULL){
                     if(send(ClientSock,"NOT FOUND\n",strlen("NOT FOUND\n")+1,0) == SOCKET_ERROR){
                         closesocket(ClientSock);
                         break;
@@ -128,7 +129,10 @@ int main(){
                     break;
                 }
             }
+            
        }
+
+       
        closesocket(ClientSock);
     }
 }
