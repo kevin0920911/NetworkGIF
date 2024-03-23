@@ -41,12 +41,15 @@ int main(){
 
     connect(sock, (LPSOCKADDR) &serv, sizeof(serv));
     while(1){
+        memset(str, 0, MAXLINE);
+        //send user select data
         int byte = recv(sock, str, MAXLINE, 0);
         printf("%s\n",str);
-        char sendMessage[2];
+        char sendMessage[2]={};
         scanf("%c",sendMessage);
         send(sock, sendMessage, strlen(sendMessage)+1, 0);
         if (strcmp(sendMessage,"1") == 0){
+            //IP query
             int byte = recv(sock, str, MAXLINE, 0);
             printf("%s\n",str);
 
@@ -59,6 +62,7 @@ int main(){
             printf("%s\n",str);
         }
         else{
+            //Date time and Invalid Data
             int byte = recv(sock, str, MAXLINE, 0);
             printf("%s\n",str);
         }

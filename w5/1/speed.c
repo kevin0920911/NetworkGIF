@@ -69,7 +69,7 @@ int main(){
         byte_count += bytes_sent;
         end_time = time(NULL);
         if (difftime(end_time, start_time) >= 1) {
-            printf("Bytes sent to Discard Server: %d\n", byte_count);
+            printf("Bytes sent to Discard Server: %d Bytes/sec\n", byte_count);
             byte_count = 0;
             loopCount ++ ;
             start_time = time(NULL);

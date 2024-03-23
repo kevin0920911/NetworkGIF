@@ -66,7 +66,9 @@ int main(){
        SOCKET ClientSock;
        ClientSock =  accept(ServSock, (struct sockaddr *)  &client,&clnt_len );
        while(1){
+            // Process Service : DNS and Datetime
             char meun[]= "Please enter the Service u want to use\n1)IP Query\n2)Datetime Service\n";
+            memset(str, 0, MAXLINE);
             if (send(ClientSock,meun, strlen(meun)+1,0) == SOCKET_ERROR){
                 closesocket(ClientSock);
                 break;
@@ -77,7 +79,10 @@ int main(){
                 break;
             }
             str[size] = '\0';
+            printf("str: %s\n",str);
             if (strcmp(str,"1") == 0){
+                printf("Service: DNS query\n");
+                //DNS Service
                 if (send(ClientSock,"Please enter a IP address\n", strlen("Please enter a IP address\n")+1,0)== SOCKET_ERROR){
                     closesocket(ClientSock);
                     break;
@@ -87,25 +92,32 @@ int main(){
                     closesocket(ClientSock);
                     break;
                 }
+                
                 sscanf(str, "ask://%s", &str);
                 LPHOSTENT hp;
                 struct in_addr sAddr;
                 sAddr.s_addr=inet_addr(str);
                 hp= gethostbyaddr((LPSTR) &sAddr, sizeof(sAddr),AF_INET);
                 if (hp == NULL){
+                    printf("service get: %s\n","NOT FOUND");
                     if(send(ClientSock,"NOT FOUND\n",strlen("NOT FOUND\n")+1,0) == SOCKET_ERROR){
                         closesocket(ClientSock);
                         break;
                     }
+                    printf("service send: %s\n","NOT FOUND");
                 }
                 else{
+                    printf("service get: %s\n",str);
                     if(send(ClientSock,hp->h_name,strlen(hp->h_name)+1,0) == SOCKET_ERROR){
                         closesocket(ClientSock);
                         break;
                     }
+                    printf("service send: %s\n",str);
                 }
             }
             else if (strcmp(str,"2") == 0){
+                printf("Service: Datetime\n");
+                // Datetime Service
                 SOCKET ProxySock;
                 if ( (ProxySock=socket(AF_INET, SOCK_STREAM, 0)) == SOCKET_ERROR) {
                     fprintf(stderr," can't open TCP socket\n");
@@ -117,13 +129,16 @@ int main(){
                     closesocket(ClientSock);
                     break;
                 }
+                printf("service get: %s\n",str);
                 if(send(ClientSock,str,strlen(str)+1,0) == SOCKET_ERROR){
                     closesocket(ClientSock);
                     break;
                 }
+                printf("service send: %s\n",str);
                 closesocket(ProxySock);
             }
             else{
+                // Invalid input
                 if(send(ClientSock,"Invalid data!\n", strlen("Invalid data!\n")+1,0) == SOCKET_ERROR){
                     closesocket(ClientSock);
                     break;
