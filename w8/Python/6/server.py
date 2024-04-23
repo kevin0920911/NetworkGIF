@@ -1,0 +1,13 @@
+import socket
+
+HOST,PORT = "127.0.0.1",1234
+
+serverSocket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+
+serverSocket.bind((HOST,PORT))
+print("UDP Server up and listening...")
+
+while True:
+    data= serverSocket.recv(1024)
+    print(f"Message: {data.decode()}")
+    print("===============================")
