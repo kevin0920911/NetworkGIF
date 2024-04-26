@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "winsock.h": "c",
+        "istream": "cpp",
+        "xstring": "cpp",
+        "ostream": "cpp",
+        "fstream": "cpp"
+    }
+}
