@@ -46,9 +46,10 @@ int main(){
 	while(1){
         char* c_line = NULL;
   		size_t len = 0;
-		int status = getline(&c_line,&len,fin);
+		int status = getline(&c_line,&len,fin); // Read line from file
         char buffer[2048] = "";
         if (status == EOF){
+            // Send END to server
             int n = send(sd,"END", 3+1,0);
             if (n == SOCKET_ERROR){
                 break;
@@ -56,12 +57,14 @@ int main(){
             printf("Send: %s\n","END");
         }
         else{
+            // Send line to server
             send(sd,c_line, strlen(c_line)+1,0);
             printf("Send: %s\n",c_line);
         }
         free(c_line);
         n = recv(sd,buffer, 2048, 0);
         if (n>0){
+            // Receive line from server
             buffer[n] = '\0';
             if (strcmp(buffer,"END") == 0 && status == EOF){
                 printf("Received: %s\n",buffer);

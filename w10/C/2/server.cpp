@@ -45,16 +45,18 @@ int main(){
 
 	while(1){
 		for (int i = 0; i<clnt_sd.size(); i++){
+			// Receive from client
 			n = recv(clnt_sd[i],str, 2048, 0);
 			if (n>0){
 				printf("(%i) %s\n",i+1,str);
 				for (int j=0; j<clnt_sd.size(); j++){
 					if (i==j) continue;
+					// Send to other clients
 					send(clnt_sd[j],str, strlen(str)+1,0);
 				}
 			}
 			else if (n == 0){
-
+				// Client disconnected
 				goto end;
 			}
 		}
