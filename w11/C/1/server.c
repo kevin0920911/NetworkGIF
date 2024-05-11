@@ -61,13 +61,20 @@ int main(){
             int client_size = sizeof(client);
             SOCKET new_socket = accept(server_socket, (LPSOCKADDR)&client, &client_size);
             printf("New connection: socket fd is %d , ip is : %s , port : %d \n" , new_socket , inet_ntoa(client.sin_addr) , ntohs(client.sin_port));
+            BOOL isFull = FALSE;
             for (int i = 0; i< MAXCLIENT; i++){
                 if (client_socket[i] == 0){
+                    isFull = TRUE;
                     client_socket[i] = new_socket;
                     client_num++;
                     printf("The %d client socket is in cli_sd[%d]\n",client_num,i);
                     break;
                 }
+            }
+            if (!isFull){
+                printf("Server is full\n");
+                send(new_socket, "Server is full", strlen("Server is full")+1, 0);
+                closesocket(new_socket);
             }
         }
         // if client can be written
@@ -102,6 +109,7 @@ int main(){
                 }
             }
         }
+        printf("Client number: %d\n", client_num);
         Sleep(1000);
     }
     

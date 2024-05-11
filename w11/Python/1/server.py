@@ -40,9 +40,10 @@ while True:
         now = datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S")
         try:
             sock.send(f"{now}".encode())
-            print(f"Send: {now}")
+            print(f"Send to clinet{Rsockets.find(sock)}: {now}")
         except Exception as e:
             print(e)
             sock.close()
             Rsockets.remove(sock)
+    print(f"Client number: {len(Rsockets)}")
     time.sleep(1)

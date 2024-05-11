@@ -45,4 +45,5 @@ while True:
             print(e)
             sock.close()
             Rsockets.remove(sock)
+    print(f"Client number: {len(Rsockets)}")
     time.sleep(1)

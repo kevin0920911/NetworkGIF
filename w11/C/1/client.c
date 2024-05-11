@@ -28,8 +28,13 @@ int main(){
     while (TRUE){
         char buffer[BUFFER_SIZE];
         int n =recv(server_socket, buffer, BUFFER_SIZE, 0);
-        if (n>0)
-            printf("Server: %s\n", buffer);
+        if (n>0){
+            printf("%s\n", buffer);
+            if(strcmp(buffer, "Server is full") == 0){
+                break;
+            }
+        }
+            
     }
     closesocket(server_socket);
     WSACleanup();
